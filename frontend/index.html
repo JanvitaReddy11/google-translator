@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Translation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Text sections */
+        .text-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 80px;
+            background-color: #f9f9f9;
+        }
+        
+        .text-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .status {
+            color: #0066cc;
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: center;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+        }
+        
+        /* Audio section */
+        .audio-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        /* Language selector section */
+        .language-section {
+            margin-bottom: 15px;
+        }
+        
+        .language-section h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Healthcare Translation</h2>
+        
+        <div class="language-section">
+            <h3>Select Target Language:</h3>
+            <select id="language-select">
+                <option value="en-US">English (US)</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="es-ES">Spanish</option>
+                <option value="fr-FR">French</option>
+                <option value="de-DE">German</option>
+                <option value="zh-CN">Chinese (Mandarin)</option>
+                <option value="ja-JP">Japanese</option>
+                <option value="ru-RU">Russian</option>
+                <option value="it-IT">Italian</option>
+                <option value="pt-BR">Portuguese (Brazil)</option>
+            </select>
+        </div>
+        
+        <div class="button-container">
+            <button id="record-btn">Start Recording</button>
+        </div>
+        
+        <p id="status" class="status">Ready to record</p>
+
+        <div class="content-sections">
+            
+            
+            <div class="text-section">
+                <div class="text-label">Translated Text:</div>
+                <p id="translated-text"></p>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="audio-btn" disabled>Convert to Speech</button>
+            <button id="clear-btn" disabled>Clear Session</button>
+        </div>
+
+        <!-- Generated Audio Output -->
+        <div class="audio-section">
+            <h3>Generated Audio:</h3>
+            <audio id="audio-output" controls></audio>
+        </div>
+
+    </div>
+
+    <!-- Link to External JavaScript File -->
+    <script src="app.js" defer></script>
+
+</body>
+</html>
