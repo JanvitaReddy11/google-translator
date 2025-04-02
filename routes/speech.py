@@ -22,8 +22,28 @@ from fastapi import HTTPException
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Set up Google Cloud credentials (Make sure your credentials file is in the right path)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/reddy/Downloads/Nao_Medical/transaltion-455219-c527c4c8bc2a.json"
+# Set up Google Cloud credentials
+# When running on GCP, the application will use the service account automatically
+# For local development, you'll still need to set GOOGLE_APPLICATION_CREDENTIALS
+from dotenv import load_dotenv
+try:
+    # Only load .env file if not running on GCP (helps with local development)
+    if not os.environ.get("K_SERVICE"):  # K_SERVICE is set when running on Cloud Run
+        load_dotenv()
+except ImportError:
+    pass
+
+# Get credentials path from environment variable if provided
+credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if credentials_path:
+    # Make sure the path exists
+    if os.path.exists(credentials_path):
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials_path
+    else:
+        logger.warning(f"Credentials file not found at {credentials_path}")
+        logger.info("Using default GCP service account credentials")
+else:
+    logger.info("No explicit credentials path provided, using default GCP service account")
 
 # Initialize clients
 speech_client = speech.SpeechClient()
@@ -58,7 +78,7 @@ def translate_text(text, target_language):
         logger.error(f"Translation error: {e}")
         return f"[Translation error: {str(e)}]"
 
-# Improved function for processing speech responses with better stop handling
+# Process speech responses with better stop handling
 async def process_speech_responses(responses, send_message, stop_event, target_language):
     last_transcript = ""
     final_sent = False
@@ -355,7 +375,7 @@ async def websocket_endpoint(
                 
         logger.info(f"Connection closed and cleaned up: {connection_id}")
 
-TRANSCRIPT_DIR = "static/transcripts"
+# Use /tmp directory for transcripts on GCP services
+static_dir = os.environ.get("STATIC_DIR", "/tmp/static")
+TRANSCRIPT_DIR = f"{static_dir}/transcripts"
 os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
-
-
